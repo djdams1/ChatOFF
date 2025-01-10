@@ -36,7 +36,7 @@ Pour utiliser l'interface web, procédez ainsi :
 
 ```bash
 cd web
-npm start
+node server
 ```
 
 Puis ouvrez votre navigateur et rendez-vous sur [http://localhost:3000](http://localhost:3000).
