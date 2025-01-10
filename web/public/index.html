@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatOFF</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://i.postimg.cc/8k6Y8s8r/A-futuristic-icon-for-an-instant-messaging-app-featuring-geometric-shapes-and-clean-lines-in-black.jpg">
+  <style>
+    /* CSS pour styliser le texte violet et en gras */
+    .violet-bold {
+      color: violet;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://i.postimg.cc/8k6Y8s8r/A-futuristic-icon-for-an-instant-messaging-app-featuring-geometric-shapes-and-clean-lines-in-black.jpg" 
+       alt="ChatOFF Icon" id="resetIcon">
+  
+  <h1>ChatOFF</h1>
+
+  <div id="usernameSetup">
+    <h2>Choisissez votre pseudo</h2>
+    <input type="text" id="username" placeholder="Entrez votre pseudo">
+    <button id="setUsername">Valider</button>
+  </div>
+
+  <div id="createSessionDiv" style="display: none;">
+    <h2>Créer une session</h2>
+    <button id="createSession">Créer</button>
+    <div id="sessionInfo" style="display: none;">
+      <p>Code de session : <span id="sessionCode"></span></p>
+    </div>
+  </div>
+
+  <div id="joinSessionDiv" style="display: none;">
+    <h2>Rejoindre une session</h2>
+    <input type="password" id="joinCode" placeholder="Entrez le code de session">
+    <input type="text" id="hostUsername" placeholder="Ou entrez le pseudo de l'hôte">
+    <button id="joinSession">Rejoindre</button>
+  </div>
+
+  <div id="userListDiv" style="display: none;">
+    <h3>Utilisateurs sur le site :</h3>
+    <ul id="userList"></ul>
+  </div>
+
+  <div id="chat" style="display: none;">
+    <h2>Messages</h2>
+    <div id="messages"></div>
+    <div id="messageInput">
+      <input type="text" id="message" placeholder="Entrez un message">
+      <button id="sendMessage">Envoyer</button>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+
+    const usernameDiv = document.getElementById('usernameSetup');
+    const createSessionDiv = document.getElementById('createSessionDiv');
+    const joinSessionDiv = document.getElementById('joinSessionDiv');
+    const chatDiv = document.getElementById('chat');
+    const sessionInfoDiv = document.getElementById('sessionInfo');
+    const sessionCodeSpan = document.getElementById('sessionCode');
+    const messagesDiv = document.getElementById('messages');
+    const userListDiv = document.getElementById('userListDiv');
+    const userList = document.getElementById('userList');
+    
+    let currentSessionCode = null;
+
+    document.getElementById('setUsername').addEventListener('click', () => {
+      const username = document.getElementById('username').value.trim();
+      if (username) {
+        socket.emit('setUsername', { username }, (response) => {
+          if (response.success) {
+            usernameDiv.style.display = 'none';
+            createSessionDiv.style.display = 'block';
+            joinSessionDiv.style.display = 'block';
+          } else {
+            alert(response.message);
+          }
+        });
+      } else {
+        alert('Veuillez entrer un pseudo.');
+      }
+    });
+
+    document.getElementById('createSession').addEventListener('click', () => {
+      socket.emit('createSession', (response) => {
+        currentSessionCode = response.sessionCode;
+        sessionCodeSpan.textContent = currentSessionCode;
+        sessionInfoDiv.style.display = 'block';
+
+        socket.emit('joinSession', { sessionCode: currentSessionCode }, (joinResponse) => {
+          if (joinResponse.success) {
+            chatDiv.style.display = 'block';
+            userListDiv.style.display = 'block';
+          } else {
+            alert(joinResponse.message);
+          }
+        });
+      });
+    });
+
+    document.getElementById('joinSession').addEventListener('click', () => {
+      const joinCode = document.getElementById('joinCode').value.trim();
+      const hostUsername = document.getElementById('hostUsername').value.trim();
+
+      if (joinCode || hostUsername) {
+        socket.emit('joinSession', { sessionCode: joinCode, hostUsername: hostUsername }, (response) => {
+          if (response.success) {
+            currentSessionCode = joinCode || response.sessionCode;
+            chatDiv.style.display = 'block';
+            userListDiv.style.display = 'block';
+          } else {
+            alert(response.message);
+          }
+        });
+      } else {
+        alert('Veuillez entrer un code de session ou un pseudo d\'hôte.');
+      }
+    });
+
+    document.getElementById('sendMessage').addEventListener('click', () => {
+      const message = document.getElementById('message').value.trim();
+      const sessionCode = currentSessionCode;
+      console.log("Message:", message);
+      console.log("Session Code:", sessionCode);
+      if (!message) {
+        alert('Veuillez entrer un message.');
+        return;
+      }
+      if (!sessionCode) {
+        alert('Vous devez être dans une session pour envoyer un message.');
+        return;
+      }
+      socket.emit('sendMessage', { sessionCode, message });
+      document.getElementById('message').value = '';  // Réinitialise le champ message
+    });
+    
+    
+
+    socket.on('message', (data) => {
+      const messageElem = document.createElement('div');
+      messageElem.innerHTML = `${data.sender}: ${data.text}`; // Utilisation de innerHTML pour interpréter les balises
+      messagesDiv.appendChild(messageElem);
+    });
+
+    socket.on('userList', (users) => {
+      const existingUsers = new Map();
+      userList.querySelectorAll('li').forEach((li) => {
+        const username = li.dataset.username;
+        existingUsers.set(username, li);
+      });
+
+      users.forEach((user) => {
+        let li = existingUsers.get(user.username);
+
+        if (!li) {
+          li = document.createElement('li');
+          li.dataset.username = user.username;
+          li.textContent = `${user.username} : ${user.time}`;
+          userList.appendChild(li);
+        } else {
+          li.textContent = `${user.username} : ${user.time}`;
+        }
+      });
+    });
+        // Fonction pour gérer l'activation du bouton en appuyant sur "Enter"
+function handleEnterKey(event, buttonId) {
+  if (event.key === "Enter") {
+    document.getElementById(buttonId).click();
+  }
+}
+
+// Ajouter un écouteur pour "Envoyer un message"
+document.getElementById('message').addEventListener('keydown', (event) => {
+  handleEnterKey(event, 'sendMessage');
+});
+
+// Ajouter un écouteur pour "Rejoindre une session"
+document.getElementById('joinCode').addEventListener('keydown', (event) => {
+  handleEnterKey(event, 'joinSession');
+});
+document.getElementById('hostUsername').addEventListener('keydown', (event) => {
+  handleEnterKey(event, 'joinSession');
+});
+document.getElementById('username').addEventListener('keydown', (event) => {
+  handleEnterKey(event, 'setUsername');
+});
+
+  </script>
+</body>
+</html>

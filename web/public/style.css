@@ -1,0 +1,215 @@
+/* Corps de la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  
+  /* Style des éléments principaux */
+  h1, h2 {
+    color: #9c27b0;
+    font-size: 36px;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(156, 39, 176, 0.6);
+  }
+  
+  /* Pseudo selection */
+  #usernameSetup {
+    background: #333;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px; /* Limite de la taille pour une meilleure présentation */
+  }
+  
+  /* Inputs et boutons */
+  input, button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #444;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    box-sizing: border-box; /* Inclut padding et bordure dans la taille totale */
+    border: 2px solid #9c27b0;
+    transition: 0.3s;
+  }
+  
+  input:focus, button:focus {
+    outline: none;
+    border-color: #6a1b9a;
+    background-color: #555;
+  }
+  
+  button {
+    background-color: #9c27b0;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #6a1b9a;
+    box-shadow: 0 6px 10px rgba(156, 39, 176, 0.8);
+  }
+  
+  /* Création de session et Rejoindre une session */
+  #createSessionDiv, #joinSessionDiv {
+    background: #333;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  #createSessionDiv {
+    border-radius: 15px 15px 0px 0px; /* Coins arrondis uniquement en haut */
+  }
+  
+  #joinSessionDiv {
+    border-radius: 0px 0px 15px 15px; /* Coins arrondis uniquement en bas */
+  }
+  
+  /* Section des messages */
+  #chat {
+    width: 100%;
+    max-width: 500px;
+    background: #333;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
+    display: none;
+  }
+  
+  /* Affichage des messages */
+  #messages {
+    background-color: #444;
+    padding: 20px; /* Augmentez le padding pour plus d'espace intérieur */
+    margin-bottom: 10px;
+    border-radius: 10px;
+    height: 300px; /* Fixe la hauteur selon vos préférences */
+    overflow-y: auto; /* Permet le défilement */
+    border: 2px solid #9c27b0;
+  }
+  
+  #messages p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #ddd;
+  }
+  
+  /* Zone d'entrée de message */
+  #messageInput {
+    display: block; /* Permet l'affichage vertical */
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  #message {
+    width: 100%; /* Prend toute la largeur disponible */
+    padding: 10px;
+    background-color: #444;
+    border: 2px solid #9c27b0;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    box-sizing: border-box; /* Inclut les bords et le padding dans la largeur totale */
+  }
+  
+  #message:focus {
+    border-color: #6a1b9a;
+    background-color: #555;
+  }
+  
+  /* Bouton "Envoyer" sous la zone de message */
+  #sendMessage {
+    width: 100%; /* Prend toute la largeur disponible */
+    padding: 12px 20px;
+    background-color: #9c27b0;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    border: 2px solid #9c27b0;
+    margin-top: 10px; /* Espacement entre le champ de texte et le bouton */
+    cursor: pointer;
+  }
+  
+  #sendMessage:hover {
+    background-color: #6a1b9a;
+    box-shadow: 0 6px 10px rgba(156, 39, 176, 0.8);
+  }
+  
+  /* Séparation et animation */
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  * {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  /* Positionnement de l'icône de réinitialisation */
+  #resetIcon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Positionnement de la div des utilisateurs (userListDiv) à droite */
+  #userListDiv {
+    position: fixed;  /* Fixe la position par rapport à la fenêtre */
+    right: 20px;      /* Décalage à partir du côté droit */
+    top: 20px;        /* Décalage à partir du haut */
+    width: 250px;     /* Largeur de la liste */
+    background: #333;  /* Fond semi-transparent */
+    color: white;     /* Texte en blanc */
+    padding: 10px;
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Ombre pour un effet flottant */
+    color: #9c27b0;
+    font-size: 12px;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(156, 39, 176, 0.6);
+    display: none;     /* Initialement caché */
+  }
+  
+  #userListDiv h3 {
+    margin-top: 0; /* Pour rapprocher le titre du haut */
+    text-align: center; /* Centrer le titre */
+  }
+  
+  #userList {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  #userList li {
+    margin-bottom: 5px;  /* Espacement entre les utilisateurs */
+    font-size: 14px;
+  }
+  
