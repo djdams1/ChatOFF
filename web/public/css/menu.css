@@ -1,0 +1,65 @@
+  /* Styles pour le menu */
+  #menu {
+    width: 100px;
+    position: absolute;
+    color: #9c27b0;
+    top: 115px; /* En dessous du logo */
+    left: 10px;
+    background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+    border: 1px solid linear-gradient(to right, #1a1a1a, #2c2c2c);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: none; /* Masqué par défaut */
+    z-index: 1000;
+  }
+
+  #menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #menu ul li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #menu ul li:hover {
+    color: #9c27b0;
+    background: linear-gradient(to right, #2e2e2e, #444444);
+    border-radius: 5px;
+  }
+
+  #resetIcon {
+    cursor: pointer;
+    width: 100px; /* Taille du logo */
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    border-radius: 15px;
+  }
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  
+  /* Style des éléments principaux */
+  h1, h2 {
+    color: #9c27b0;
+    font-size: 36px;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(156, 39, 176, 0.6);
+  }

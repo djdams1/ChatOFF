@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
       const username = users[socket.id]?.username || 'Anonyme';
       // Envoi du message en violet et en gras
       io.to(sessionCode).emit('message', { 
-        sender: '<strong class="violet-bold">ChatOFF Bot</strong>', 
+        sender: '<strong class="violet-bold">ChatOFF Bot </strong>', 
         text: `${username} a rejoint la session ${sessionCode}. Bienvenue !`
       });
       callback({ success: true });
@@ -117,7 +117,7 @@ io.on('connection', (socket) => {
     const { sessionCode, message } = data;
     const username = users[socket.id]?.username || 'Anonyme';
     if (sessions[sessionCode]) {
-      io.to(sessionCode).emit('message', { sender: `<strong class="violet-bold">${username}</strong>`, text: message });
+      io.to(sessionCode).emit('message', { sender: `<strong class="violet-bold">${username} </strong>`, text: message });
       console.log(`Message de ${username} dans la session ${sessionCode} : ${message}`);
     }
   });

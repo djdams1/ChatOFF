@@ -5,20 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChatOFF</title>
   <script src="/socket.io/socket.io.js"></script>
-  <link rel="stylesheet" href="style.css">
+  
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/menu.css">
   <link rel="icon" href="https://i.postimg.cc/8k6Y8s8r/A-futuristic-icon-for-an-instant-messaging-app-featuring-geometric-shapes-and-clean-lines-in-black.jpg">
-  <style>
-    /* CSS pour styliser le texte violet et en gras */
-    .violet-bold {
-      color: violet;
-      font-weight: bold;
-    }
-  </style>
+
 </head>
 <body>
-  <img src="https://i.postimg.cc/8k6Y8s8r/A-futuristic-icon-for-an-instant-messaging-app-featuring-geometric-shapes-and-clean-lines-in-black.jpg" 
-       alt="ChatOFF Icon" id="resetIcon">
+  <img src="https://i.postimg.cc/8k6Y8s8r/A-futuristic-icon-for-an-instant-messaging-app-featuring-geometric-shapes-and-clean-lines-in-black.jpg" alt="ChatOFF Icon" id="resetIcon">
   
+  <!-- Menu caché -->
+  <div id="menu">
+    <ul>
+      <li onclick="navigateTo('index.html')">Accueil</li>
+      <li onclick="navigateTo('https://tally.so/r/mOdbKa')">Contact</li>
+    </ul>
+  </div>
   <h1>ChatOFF</h1>
 
   <div id="usernameSetup">
@@ -55,7 +57,7 @@
       <button id="sendMessage">Envoyer</button>
     </div>
   </div>
-
+  
   <script>
     const socket = io();
 
@@ -192,6 +194,32 @@ document.getElementById('username').addEventListener('keydown', (event) => {
   handleEnterKey(event, 'setUsername');
 });
 
+  // Gestion du menu
+  const logo = document.getElementById('resetIcon');
+  const menu = document.getElementById('menu');
+
+  // Basculer l'affichage du menu au clic sur le logo
+  logo.addEventListener('click', () => {
+    if (menu.style.display === 'none' || menu.style.display === '') {
+      menu.style.display = 'block'; // Affiche le menu
+    } else {
+      menu.style.display = 'none'; // Cache le menu
+    }
+  });
+
+  // Fonction pour naviguer vers une page
+  function navigateTo(page) {
+    window.location.href = page;
+  }
+
+  // Masquer le menu si l'utilisateur clique ailleurs
+  document.addEventListener('click', (event) => {
+    if (!menu.contains(event.target) && event.target !== logo) {
+      menu.style.display = 'none';
+    }
+  });
+
   </script>
+  <script type='text/javascript' src='//pl25550106.profitablecpmrate.com/8f/ca/6a/8fca6aa5a835e25218af8561c74d2ea4.js'></script>
 </body>
 </html>
